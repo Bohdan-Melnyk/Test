@@ -1,9 +1,9 @@
 package com.example.testoauth2.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -13,10 +13,11 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
+@Lazy
 public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
-    private String clientid = "tutorialspoint";
-    private String clientSecret = "my-secret-key";
-    private String privateKey = "-----BEGIN RSA PRIVATE KEY-----\n" +
+    private final String clientid = "tutorialspoint";
+    private final String clientSecret = "my-secret-key";
+    private final String privateKey = "-----BEGIN RSA PRIVATE KEY-----\n" +
             "MIIEowIBAAKCAQEApoaQFFxCQODjkrCPW9++hyFS89QQuuOpQggJYprLBcqlQUuM\n" +
             "ONqO5knzdz824cBNwF5LUwp+pezhLmnCqRLw0uNYJTVCP0lKxL5ZVEPVXCQ/UX0L\n" +
             "Z/3X+EEzSoYrdx93WsIrImN7Pri62Sl0mSHexfEO6XOTwAZ6DIHjMXlOqKrdHSSg\n" +
@@ -43,7 +44,7 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
             "QMi7Rjc1pVey7GXPKwv2Y+D7vNooWgFRdTmO+nLChTEcXBw2+2gH8P8kf5dk/82p\n" +
             "WOXKLURn9+H7HpScgB8UB5F/KQ9akPjDbSXjMFAthTc7zUe7pNH/\n" +
             "-----END RSA PRIVATE KEY-----";
-    private String publicKey = "-----BEGIN PUBLIC KEY-----\n" +
+    private final String publicKey = "-----BEGIN PUBLIC KEY-----\n" +
             "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApoaQFFxCQODjkrCPW9++\n" +
             "hyFS89QQuuOpQggJYprLBcqlQUuMONqO5knzdz824cBNwF5LUwp+pezhLmnCqRLw\n" +
             "0uNYJTVCP0lKxL5ZVEPVXCQ/UX0LZ/3X+EEzSoYrdx93WsIrImN7Pri62Sl0mSHe\n" +
@@ -53,9 +54,12 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
             "9QIDAQAB\n" +
             "-----END PUBLIC KEY-----";
 
+    private final AuthenticationManager authenticationManager;
+
     @Autowired
-    @Qualifier("authenticationManagerBean")
-    private AuthenticationManager authenticationManager;
+    public OAuth2Config(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
 
     @Bean
     public JwtAccessTokenConverter tokenEnhancer() {
@@ -71,13 +75,13 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore())
                 .accessTokenConverter(tokenEnhancer());
     }
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer security)  {
         security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
     }
 

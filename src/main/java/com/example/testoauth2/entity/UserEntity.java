@@ -3,8 +3,7 @@ package com.example.testoauth2.entity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -14,5 +13,5 @@ import java.util.Collection;
 public class UserEntity {
     private String username;
     private String password;
-    private Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+    private Set<GrantedAuthority> grantedAuthorities;
 }

@@ -19,16 +19,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    @Autowired
-    CustomDetailsService customDetailsService;
 
+    private CustomDetailsService customDetailsService;
+
+    @Autowired
+    public SecurityConfiguration(CustomDetailsService customDetailsService) {
+        this.customDetailsService = customDetailsService;
+    }
+
+    @Bean
     public PasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
     }
-
-//    protected SecurityConfiguration() {
-//        super();
-//    }
 
     @Override
     @Autowired
