@@ -33,6 +33,7 @@ public class OAuthDao {
                     user.setPassword(rs.getString("PASSWORD"));
                     return user;
                 });
+
         if (list.size() > 0) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_SYSTEMADMIN");
             grantedAuthoritiesList.add(grantedAuthority);

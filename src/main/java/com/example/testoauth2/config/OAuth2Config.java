@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 @Lazy
 public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     private final String clientid = "tutorialspoint";
-    private final String clientSecret = "my-secret-key";
+    private final String clientSecret = "{noop}my-secret-key";
     private final String privateKey = "-----BEGIN RSA PRIVATE KEY-----\n" +
             "MIIEowIBAAKCAQEApoaQFFxCQODjkrCPW9++hyFS89QQuuOpQggJYprLBcqlQUuM\n" +
             "ONqO5knzdz824cBNwF5LUwp+pezhLmnCqRLw0uNYJTVCP0lKxL5ZVEPVXCQ/UX0L\n" +

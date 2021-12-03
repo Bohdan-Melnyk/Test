@@ -14,4 +14,9 @@ public class UserEntity {
     private String username;
     private String password;
     private Set<GrantedAuthority> grantedAuthorities;
+
+    public UserEntity(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }
