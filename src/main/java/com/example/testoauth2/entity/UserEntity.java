@@ -1,6 +1,10 @@
 package com.example.testoauth2.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Set;
