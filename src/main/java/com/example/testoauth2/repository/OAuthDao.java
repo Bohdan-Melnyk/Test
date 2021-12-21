@@ -8,18 +8,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class OAuthDao {
 
+    private JdbcTemplate jdbcTemplate;
+
     @Autowired
-    public JdbcTemplate jdbcTemplate;
+    public OAuthDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public UserEntity getUserDetails(String username) {
-        Collection<GrantedAuthority> grantedAuthoritiesList = new ArrayList<>();
+        Set<GrantedAuthority> grantedAuthoritiesList = new HashSet<>();
         String userSQLQuery = "SELECT * FROM USERS WHERE USERNAME=?";
         List<UserEntity> list = jdbcTemplate.query(userSQLQuery, new String[] { username },
                 (ResultSet rs, int rowNum) -> {
@@ -29,6 +33,7 @@ public class OAuthDao {
                     user.setPassword(rs.getString("PASSWORD"));
                     return user;
                 });
+
         if (list.size() > 0) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_SYSTEMADMIN");
             grantedAuthoritiesList.add(grantedAuthority);
